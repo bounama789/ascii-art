@@ -76,6 +76,7 @@ func PrintWordAsciiArt() {
 				for x, word := range words {
 
 					for _, v := range word {
+	
 						idx := GetCharIndex(v)
 
 						asciiChar := (*asciiArt)[idx]
@@ -108,44 +109,6 @@ func IsIn(let []rune, r rune) bool {
 
 func PrintUsage() {
 	fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nExample: go run . --align=right something standard")
-}
-
-func ReadArt(filePath string) ([][][]int, error) {
-	// Read the file
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-
-	result := make([][][]int, 0)
-	var line []int
-	var b [][]int
-	var nLine = 1
-
-	for scanner.Scan() {
-		chars := scanner.Text()
-		for _, v := range chars {
-			if isPrintableChar(v) && v != ' ' {
-				line = append(line, 1)
-			} else {
-				line = append(line, 0)
-			}
-
-		}
-		b = append(b, line)
-		line = []int{}
-
-		if nLine%8 == 0 {
-			result = append(result, b)
-			b = [][]int{}
-		}
-		nLine++
-	}
-
-	return result, nil
 }
 
 func isPrintableChar(r rune) bool {
