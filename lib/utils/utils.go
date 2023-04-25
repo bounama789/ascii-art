@@ -13,8 +13,6 @@ var Text = new(string)
 var asciiArt = new([][8]string)
 
 func ReadASCIIArtFile(filePath string) {
-	a, _ := os.Getwd()
-	println(a)
 	file, err := os.Open(filePath)
 	if err != nil {
 		panic(err)
