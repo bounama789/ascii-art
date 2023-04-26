@@ -45,15 +45,16 @@ func ReadASCIIArtFile(filePath string) {
 
 func GetCharIndex(r rune) int {
 	if r < 32 || r > 126 {
-		fmt.Printf("%vError:\033[0m Character [%v%v\033[0m] not available in ascii-art.\n", style.GetColorByName("red"), style.GetColorByName("yellow"), string(r))
+		fmt.Printf("\033[0G%vError:\033[0m Character [%v%v\033[0m] not available in ascii-art.\n", style.GetColorByName("red"), style.GetColorByName("yellow"), string(r))
 		os.Exit(1)
 	}
 	b := int(r) - 31
 	return b
 }
 
-func PrintWordAsciiArt() {
+func PrintWordAsciiArt() string {
 	*banner = "standard"
+	output := ""
 
 	path := fmt.Sprintf("data/%v.txt", *banner)
 
@@ -65,7 +66,7 @@ func PrintWordAsciiArt() {
 	for xw, line := range lines {
 		if line == "" {
 			if xw < len(lines)-1 {
-
+				output += "\n"
 				fmt.Println()
 			}
 		} else {
@@ -81,21 +82,25 @@ func PrintWordAsciiArt() {
 
 						asciiChar := (*asciiArt)[idx]
 
+						output += asciiChar[i]
 						fmt.Printf("%v", asciiChar[i])
 
 					}
 					if  x < len(words)-1 {
-						
+						temp := strings.Repeat(" ", 6)
+						output += temp
 						fmt.Print(strings.Repeat(" ", 6))
 					} 
 
 				}
 				if i < 8 {
+					output += "\n"
 					fmt.Println()
 				}
 			}
 		}
 	}
+	return output
 }
 
 func IsIn(let []rune, r rune) bool {
@@ -107,15 +112,17 @@ func IsIn(let []rune, r rune) bool {
 	return false
 }
 
-func PrintUsage() {
-	fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nExample: go run . --align=right something standard")
-}
+/*
 
-func isPrintableChar(r rune) bool {
-	if r >= 32 && r <= 126 {
-		return true
+	func PrintUsage() {
+		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nExample: go run . --align=right something standard")
 	}
-	return false
-}
 
+	func isPrintableChar(r rune) bool {
+		if r >= 32 && r <= 126 {
+			return true
+		}
+		return false
+	}
+*/
 
